@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0.8
+    container_name: mongo_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - "27017:27017"
+    volumes:
+      - db0:/data/db
+  fastapi:
+    build: .
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+
+volumes:
+  db0:
